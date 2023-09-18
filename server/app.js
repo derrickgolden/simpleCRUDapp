@@ -4,9 +4,9 @@ const dotenv = require('dotenv');
 
 const dbservices = require('./dbService')
 
-const {getNote,
-    getNotes,
-    insertRow,} = require('./dbService')
+const {getNote, getName,
+        getNotes, updateRow,
+        insertRow, deleteRow } = require('./dbService')
 
 const app = express()
 dotenv.config()
@@ -27,11 +27,43 @@ app.post('/insert', async (req, res) =>{
     })
 })
 
+app.delete('/delete/:id', async(req, res) =>{
+    let {id} = req.params;
+    // console.log(id)
+    try {
+        const response = await deleteRow(id)
+        res.status(200).json({success: true,
+            data: response})
+        } 
+    catch (error) {
+        res.status(301).json({success: false,
+            data: error})
+        console.log(error)
+    }
+})
+
+app.patch('/update', async(req, res) =>{
+    const {id, name } = req.body;
+    console.log(name)
+
+    const response = await updateRow(id, name)
+    console.log(response)
+    res.status(200).json({success: response})
+})
+
 app.get("/getAll", async (req, res) =>{
-    const j = await getNotes()
-    console.log(j)
+    const allNames = await getNotes()
+    
     res.status(200).json({ success: true,
-        data: j })
+        data: allNames })
+})
+app.get("/search/:searchValue", async (req, res) =>{
+    const {searchValue} = req.params
+    console.log(searchValue)
+    const name = await getName(searchValue)
+    
+    res.status(200).json({ success: true,
+        data: name })
 })
 
 app.use((err, req, res, next ) => {
