@@ -52,6 +52,7 @@ app.patch('/update', async(req, res) =>{
 })
 
 app.get("/getAll", async (req, res) =>{
+    res.setHeader("Access-Control-Allow-Credentials", "true")
     const allNames = await getNotes()
     
     res.status(200).json({ success: true,
