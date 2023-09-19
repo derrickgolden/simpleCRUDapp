@@ -14,6 +14,7 @@ dotenv.config()
 app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(express.static('index.html'))
 
 app.post('/insert', async (req, res) =>{
     const { name } = req.body
@@ -57,7 +58,8 @@ app.get("/getAll", async (req, res) =>{
     
     res.status(200).json({ success: true,
         data: allNames })
-})
+    })
+
 app.get("/search/:searchValue", async (req, res) =>{
     const {searchValue} = req.params
     console.log(searchValue)

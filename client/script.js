@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('https://simple-crud-app-6x2o.onrender.com/getAll')
+    fetch('http://localhost:5000/getAll')
     .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
+    .then(data => {
+        console.log(data)
+        loadHTMLTable(data['data'])
+    });
 loadHTMLTable([])
     
 });
@@ -76,7 +79,7 @@ addBtn.onclick = function () {
     const name = nameInput.value;
     nameInput.value = "";
 
-    fetch('https://simple-crud-app-6x2o.onrender.com/insert', {
+    fetch('http://localhost:5000/insert', {
         headers: {
             'Content-type': 'application/json'
         },
